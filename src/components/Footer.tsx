@@ -123,10 +123,18 @@ export default function Footer() {
       {/* Bottom Bar */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-xs text-white/60 gap-3">
         <p>© {new Date().getFullYear()} {siteConfig.name}। সর্বস্বত্ব সংরক্ষিত।</p>
-        <p className="flex items-center gap-1 text-white/80">
-          <Sparkles className="w-3.5 h-3.5 text-rihlah-amber" />
-          {siteConfig.slogan}
-        </p>
+        <div className="flex items-center gap-4">
+          <Link
+            href="/admin/orders"
+            className="hover:text-rihlah-amber text-white/50 hover:underline transition-colors flex items-center gap-1 text-[11px]"
+          >
+            🔒 অ্যাডমিন প্যানেল (অর্ডার দেখুন)
+          </Link>
+          <p className="flex items-center gap-1 text-white/80">
+            <Sparkles className="w-3.5 h-3.5 text-rihlah-amber" />
+            {siteConfig.slogan}
+          </p>
+        </div>
       </div>
     </footer>
   );
