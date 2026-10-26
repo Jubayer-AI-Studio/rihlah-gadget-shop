@@ -1,0 +1,50 @@
+{
+  "name": "রিহলাহ গ্যাজেট শপ - অরিজিনাল পণ্যে অবিচল আস্থা",
+  "short_name": "রিহলাহ শপ",
+  "description": "রিহলাহ গ্যাজেট শপ — প্রিমিয়াম স্মার্টওয়াচ, স্পিকার, ইয়ারফোন ও গ্যাজেটের ১০০% অরিজিনাল খুচরা অনলাইন শপ।",
+  "start_url": "/",
+  "id": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#FFFFFF",
+  "theme_color": "#0B4D3C",
+  "scope": "/",
+  "lang": "bn",
+  "icons": [
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-maskable-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "সব গ্যাজেট",
+      "short_name": "পণ্যসমূহ",
+      "description": "লেটেস্ট সব গ্যাজেট ও অফার দেখুন",
+      "url": "/",
+      "icons": [{ "src": "/icons/icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "হোয়াটসঅ্যাপ সাপোর্ট",
+      "short_name": "সাপোর্ট",
+      "description": "সরাসরি হোয়াটসঅ্যাপে কথা বলুন",
+      "url": "https://wa.me/8801580376861",
+      "icons": [{ "src": "/icons/icon-192x192.png", "sizes": "192x192" }]
+    }
+  ],
+  "categories": ["shopping", "lifestyle", "gadgets"]
+}

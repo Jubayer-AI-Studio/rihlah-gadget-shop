@@ -1,0 +1,67 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Product {
+  id               String      @id @default(uuid())
+  slug             String      @unique
+  name             String
+  tagline          String
+  category         String
+  categoryLabel    String
+  originalPrice    Int
+  price            Int
+  badge            String?
+  isFeatured       Boolean     @default(false)
+  isBestSeller     Boolean     @default(false)
+  inStock          Boolean     @default(true)
+  rating           Float       @default(4.9)
+  reviewsCount     Int         @default(18)
+  images           String      // JSON string array
+  colors           String?     // JSON string array of {name, code, image}
+  shortDescription String
+  fullDescription  String      // JSON string array of paragraphs
+  keyFeatures      String      // JSON string array
+  specs            String      // JSON string array of {label, value}
+  warranty         String?
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+  orderItems       OrderItem[]
+}
+
+model Order {
+  id              String      @id @default(uuid())
+  orderNumber     String      @unique
+  customerName    String
+  customerPhone   String
+  customerAddress String
+  deliveryArea    String      // "insideDhaka" | "outsideDhaka"
+  deliveryCharge  Int
+  subtotal        Int
+  totalAmount     Int
+  notes           String?
+  status          String      @default("PENDING") // PENDING, CONFIRMED, SHIPPED, DELIVERED, CANCELLED
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  items           OrderItem[]
+}
+
+model OrderItem {
+  id            String   @id @default(uuid())
+  orderId       String
+  order         Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId     String?
+  product       Product? @relation(fields: [productId], references: [id])
+  productName   String
+  productSlug   String
+  productImage  String
+  unitPrice     Int
+  quantity      Int
+  selectedColor String?
+  totalPrice    Int
+}
