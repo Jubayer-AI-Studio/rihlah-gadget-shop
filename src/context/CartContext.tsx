@@ -2,6 +2,8 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { CartItem, OrderCustomerInfo, Product } from '@/types/product';
+import { generateCartWhatsAppUrl } from '@/utils/whatsappOrder';
+import { siteConfig } from '@/config/siteConfig';
 
 interface CartContextType {
   cartItems: CartItem[];
@@ -123,6 +125,13 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
       const data = await res.json();
       if (data.success && data.whatsappUrl) {
+        if (data.order && typeof window !== 'undefined') {
+          try {
+            const existing = JSON.parse(localStorage.getItem('rihlah_local_orders') || '[]');
+            existing.unshift(data.order);
+            localStorage.setItem('rihlah_local_orders', JSON.stringify(existing.slice(0, 100)));
+          } catch (err) {}
+        }
         clearCart();
         setIsCartOpen(false);
         window.open(data.whatsappUrl, '_blank');
@@ -131,8 +140,54 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         return { success: false, error: data.error || 'অর্ডার করতে ব্যর্থ হয়েছে।' };
       }
     } catch (e: any) {
-      console.error('Order placement error:', e);
-      return { success: false, error: 'সার্ভারে কানেক্ট করা যাচ্ছে না।' };
+      console.warn('API error, falling back to direct WhatsApp order:', e);
+      const deliveryCharge =
+        customer.area === 'insideDhaka'
+          ? siteConfig.deliveryCharge.insideDhaka
+          : siteConfig.deliveryCharge.outsideDhaka;
+      const orderNumber = `RIHLAH-${Date.now().toString().slice(-4)}`;
+      const fallbackUrl = generateCartWhatsAppUrl(
+        customer,
+        cartItems,
+        subtotal,
+        deliveryCharge,
+        orderNumber
+      );
+      if (typeof window !== 'undefined') {
+        try {
+          const existing = JSON.parse(localStorage.getItem('rihlah_local_orders') || '[]');
+          existing.unshift({
+            id: `local-${orderNumber}`,
+            orderNumber,
+            customerName: customer.name,
+            customerPhone: customer.phone,
+            customerAddress: customer.address,
+            deliveryArea: customer.area,
+            deliveryCharge,
+            subtotal,
+            totalAmount: subtotal + deliveryCharge,
+            notes: customer.notes || null,
+            status: 'PENDING',
+            createdAt: new Date().toISOString(),
+            items: cartItems.map((item, idx) => ({
+              id: `item-${idx}`,
+              productId: item.product.id,
+              productName: item.product.name,
+              productSlug: item.product.slug,
+              productImage: item.product.images[0] || '/images/logo.jpg',
+              unitPrice: item.product.price,
+              quantity: item.quantity,
+              selectedColor: item.selectedColor || null,
+              totalPrice: item.product.price * item.quantity,
+            })),
+          });
+          localStorage.setItem('rihlah_local_orders', JSON.stringify(existing.slice(0, 100)));
+        } catch (err) {}
+      }
+      clearCart();
+      setIsCartOpen(false);
+      window.open(fallbackUrl, '_blank');
+      return { success: true, whatsappUrl: fallbackUrl };
     }
   };
 

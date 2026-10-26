@@ -8,12 +8,13 @@ import ProductCard from '@/components/ProductCard';
 import CartDrawer from '@/components/CartDrawer';
 import Footer from '@/components/Footer';
 import { Product } from '@/types/product';
+import { initialProducts } from '@/data/products';
 import { siteConfig } from '@/config/siteConfig';
 import { MessageCircle, Sparkles, PackageSearch, Loader2 } from 'lucide-react';
 
 export default function HomePage() {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [products, setProducts] = useState<Product[]>(initialProducts);
+  const [loading, setLoading] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
@@ -22,13 +23,11 @@ export default function HomePage() {
       try {
         const res = await fetch('/api/products');
         const data = await res.json();
-        if (data.success && data.products) {
+        if (data.success && data.products && data.products.length > 0) {
           setProducts(data.products);
         }
       } catch (err) {
         console.error('Failed to load products from API:', err);
-      } finally {
-        setLoading(false);
       }
     }
     loadProducts();

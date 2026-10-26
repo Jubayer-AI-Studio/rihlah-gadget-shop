@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
+import { initialProducts, getProductBySlug, getRelatedProducts } from '@/data/products';
 import { siteConfig } from '@/config/siteConfig';
 import ProductDetailClient from './ProductDetailClient';
 import { Product } from '@/types/product';
@@ -14,41 +15,57 @@ interface Props {
 function parseProduct(p: any): Product {
   return {
     ...p,
-    images: JSON.parse(p.images || '[]'),
-    colors: p.colors ? JSON.parse(p.colors) : undefined,
-    fullDescription: JSON.parse(p.fullDescription || '[]'),
-    keyFeatures: JSON.parse(p.keyFeatures || '[]'),
-    specs: JSON.parse(p.specs || '[]'),
+    images: typeof p.images === 'string' ? JSON.parse(p.images || '[]') : p.images,
+    colors: typeof p.colors === 'string' ? JSON.parse(p.colors) : p.colors,
+    fullDescription: typeof p.fullDescription === 'string' ? JSON.parse(p.fullDescription || '[]') : p.fullDescription,
+    keyFeatures: typeof p.keyFeatures === 'string' ? JSON.parse(p.keyFeatures || '[]') : p.keyFeatures,
+    specs: typeof p.specs === 'string' ? JSON.parse(p.specs || '[]') : p.specs,
   };
 }
 
 export async function generateStaticParams() {
-  const dbProducts = await prisma.product.findMany({
-    select: { slug: true },
-  });
-  return dbProducts.map((p) => ({ slug: p.slug }));
+  try {
+    const dbProducts = await prisma.product.findMany({
+      select: { slug: true },
+    });
+    if (dbProducts && dbProducts.length > 0) {
+      return dbProducts.map((p) => ({ slug: p.slug }));
+    }
+  } catch (err) {}
+
+  return initialProducts.map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const dbProduct = await prisma.product.findUnique({
-    where: { slug: params.slug },
-  });
-  if (!dbProduct) return {};
+  let product: Product | undefined;
 
-  const images = JSON.parse(dbProduct.images || '[]');
+  try {
+    const dbProduct = await prisma.product.findUnique({
+      where: { slug: params.slug },
+    });
+    if (dbProduct) {
+      product = parseProduct(dbProduct);
+    }
+  } catch (err) {}
+
+  if (!product) {
+    product = getProductBySlug(params.slug);
+  }
+
+  if (!product) return {};
 
   return {
-    title: `${dbProduct.name} - ${siteConfig.name}`,
-    description: dbProduct.shortDescription,
+    title: `${product.name} - ${siteConfig.name}`,
+    description: product.shortDescription,
     openGraph: {
-      title: `${dbProduct.name} | মাত্র ৳${dbProduct.price} (${siteConfig.slogan})`,
-      description: dbProduct.tagline,
+      title: `${product.name} | মাত্র ৳${product.price} (${siteConfig.slogan})`,
+      description: product.tagline,
       images: [
         {
-          url: images[0] || '/images/logo.jpg',
+          url: product.images[0] || '/images/logo.jpg',
           width: 800,
           height: 800,
-          alt: dbProduct.name,
+          alt: product.name,
         },
       ],
     },
@@ -56,25 +73,41 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function ProductPage({ params }: Props) {
-  const dbProduct = await prisma.product.findUnique({
-    where: { slug: params.slug },
-  });
+  let product: Product | undefined;
 
-  if (!dbProduct) {
+  try {
+    const dbProduct = await prisma.product.findUnique({
+      where: { slug: params.slug },
+    });
+    if (dbProduct) {
+      product = parseProduct(dbProduct);
+    }
+  } catch (err) {}
+
+  if (!product) {
+    product = getProductBySlug(params.slug);
+  }
+
+  if (!product) {
     notFound();
   }
 
-  const product = parseProduct(dbProduct);
+  let relatedProducts: Product[] = [];
+  try {
+    const relatedDb = await prisma.product.findMany({
+      where: {
+        id: { not: product.id },
+      },
+      take: 4,
+    });
+    if (relatedDb && relatedDb.length > 0) {
+      relatedProducts = relatedDb.map(parseProduct);
+    }
+  } catch (err) {}
 
-  // Fetch related products from same category or others
-  const relatedDbProducts = await prisma.product.findMany({
-    where: {
-      id: { not: product.id },
-    },
-    take: 4,
-  });
-
-  const relatedProducts = relatedDbProducts.map(parseProduct);
+  if (relatedProducts.length === 0) {
+    relatedProducts = getRelatedProducts(product.category, product.id, 4);
+  }
 
   return (
     <ProductDetailClient product={product} relatedProducts={relatedProducts} />
