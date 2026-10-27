@@ -1,27 +1,21 @@
 @echo off
 chcp 65001 >nul
 echo ========================================================
-echo       ক্লাউডফ্লেয়ার পেজেস (Cloudflare Pages) ডিপ্লয়
+echo       ক্লাউডফ্লেয়ার পেজেস (Cloudflare Pages) লাইভ ডিপ্লয়
 echo ========================================================
 echo.
 cd /d "%~dp0"
 
-echo [1/3] ক্লাউডফ্লেয়ার অথেনটিকেশন চেক করা হচ্ছে...
-call npx wrangler whoami >nul 2>&1
-if %errorlevel% neq 0 (
-    echo.
-    echo ক্লাউডফ্লেয়ার অ্যাকাউন্টে লগইন করতে ব্রাউজার ওপেন হচ্ছে...
-    call npx wrangler login
-)
+echo [1/2] প্রজেক্ট বিল্ড করা হচ্ছে...
+call npx next build
 
 echo.
-echo [2/3] নেক্সট.জেএস প্রজেক্ট বিল্ড করা হচ্ছে...
-call npm run build
+echo [2/2] ক্লাউডফ্লেয়ারে আপলোড করা হচ্ছে...
+call npx wrangler pages deploy out --project-name rihlah-gadget-shop --branch main --commit-dirty=true
 
 echo.
-echo [3/3] ক্লাউডফ্লেয়ার পেজেসে আপলোড করা হচ্ছে...
-call npx wrangler pages deploy .next --project-name rihlah-gadget-shop
-
-echo.
-echo ডিপ্লয় সম্পন্ন হয়েছে!
+echo ========================================================
+echo   সফলভাবে ক্লাউডফ্লেয়ারে ডিপ্লয় সম্পন্ন হয়েছে!
+echo   লাইভ লিংক: https://rihlah-gadget-shop.pages.dev
+echo ========================================================
 pause
