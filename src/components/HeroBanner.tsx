@@ -87,13 +87,13 @@ export default function HeroBanner() {
               </div>
 
               {/* Logo / Brand Emblem */}
-              <div className="relative w-full aspect-square rounded-2xl overflow-hidden border border-rihlah-light shadow-inner bg-white">
+              <div className="relative w-full aspect-square rounded-2xl overflow-hidden border border-rihlah-light shadow-inner bg-white p-2">
                 <Image
-                  src="/images/logo.jpg"
+                  src="/images/logo.png"
                   alt={siteConfig.name}
                   fill
                   priority
-                  className="object-cover"
+                  className="object-contain"
                 />
               </div>
 

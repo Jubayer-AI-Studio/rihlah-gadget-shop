@@ -49,21 +49,21 @@ export default function Navbar({ searchQuery, onSearchChange }: NavbarProps) {
       {/* Main Navbar */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2.5 sm:py-3 flex items-center justify-between gap-4">
         {/* Brand Logo & Name */}
-        <Link href="/" className="flex items-center gap-3 group shrink-0">
-          <div className="relative w-11 h-11 sm:w-13 sm:h-13 rounded-full overflow-hidden border-2 border-rihlah-primary shadow-sm transition-transform group-hover:scale-105 bg-white">
+        <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group shrink-0">
+          <div className="relative w-11 h-11 sm:w-13 sm:h-13 rounded-xl overflow-hidden border border-rihlah-primary/30 shadow-xs transition-transform group-hover:scale-105 bg-white p-0.5">
             <Image
-              src="/images/logo.jpg"
+              src="/images/logo.png"
               alt={siteConfig.name}
               fill
-              className="object-cover"
+              className="object-contain"
               priority
             />
           </div>
           <div className="flex flex-col text-left">
-            <span className="font-black text-lg sm:text-xl leading-tight text-rihlah-deep tracking-tight group-hover:text-rihlah-accent transition-colors">
+            <span className="font-black text-base sm:text-xl leading-tight text-rihlah-deep tracking-tight group-hover:text-rihlah-accent transition-colors">
               {siteConfig.name}
             </span>
-            <span className="text-[11px] text-rihlah-accent font-bold tracking-wide">
+            <span className="text-[10px] sm:text-[11px] text-rihlah-accent font-bold tracking-wide">
               {siteConfig.slogan}
             </span>
           </div>

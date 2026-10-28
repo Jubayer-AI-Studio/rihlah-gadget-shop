@@ -15,7 +15,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: `${siteConfig.name} - ${siteConfig.slogan}`,
   description: siteConfig.description,
-  metadataBase: new URL("https://rihlah-gadget-shop.vercel.app"),
+  metadataBase: new URL("https://rihlah-gadget-shop.pages.dev"),
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
@@ -53,7 +53,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="bn" className="scroll-smooth">
-      <body className="min-h-screen flex flex-col bg-surface-light text-ink-main selection:bg-rihlah-accent selection:text-white pb-16 md:pb-0">
+      <body className="min-h-screen flex flex-col bg-surface-light text-ink-main selection:bg-rihlah-accent selection:text-white pb-16 md:pb-0 overflow-x-hidden">
         <CartProvider>
           {children}
           <MobileBottomNav />

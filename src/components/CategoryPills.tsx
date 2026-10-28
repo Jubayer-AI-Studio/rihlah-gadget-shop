@@ -19,7 +19,7 @@ export default function CategoryPills({
     { id: 'speaker', label: 'ব্লুটুথ ও কারাওকে স্পিকার', icon: Volume2 },
     { id: 'smartwatch', label: 'স্মার্টওয়াচ', icon: Watch },
     { id: 'headphone', label: 'হেডফোন ও নেকব্যান্ড', icon: Headphones },
-    { id: 'accessories', label: 'ভ্লগিং ও লাইটিং', icon: Video },
+    { id: 'accessories', label: 'স্মার্ট অ্যাক্সেসরিজ', icon: Video },
   ];
 
   return (

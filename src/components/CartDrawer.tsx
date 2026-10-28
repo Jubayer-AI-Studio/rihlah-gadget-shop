@@ -64,7 +64,7 @@ export default function CartDrawer() {
         className="absolute inset-0 bg-black/60 backdrop-blur-xs transition-opacity animate-in fade-in duration-200"
       />
 
-      <div className="fixed inset-y-0 right-0 max-w-full flex pl-8 sm:pl-10">
+      <div className="fixed inset-y-0 right-0 max-w-full flex pl-0 sm:pl-10">
         <div className="w-screen max-w-md bg-white shadow-2xl flex flex-col justify-between overflow-hidden animate-in slide-in-from-right duration-300">
           {/* Header */}
           <div className="px-5 py-4 bg-gradient-to-r from-rihlah-dark via-rihlah-deep to-rihlah-primary text-white flex items-center justify-between shadow-xs">
@@ -212,7 +212,7 @@ export default function CartDrawer() {
                       placeholder="যেমন: মোঃ সাকিব চৌধুরী"
                       value={customer.name}
                       onChange={(e) => setCustomer({ ...customer, name: e.target.value })}
-                      className="w-full text-xs p-2.5 rounded-xl border border-rihlah-light focus:outline-none focus:ring-2 focus:ring-rihlah-primary"
+                      className="w-full text-base sm:text-xs p-2.5 rounded-xl border border-rihlah-light focus:outline-none focus:ring-2 focus:ring-rihlah-primary"
                     />
                   </div>
 
@@ -227,7 +227,7 @@ export default function CartDrawer() {
                       placeholder="01XXXXXXXXX"
                       value={customer.phone}
                       onChange={(e) => setCustomer({ ...customer, phone: e.target.value })}
-                      className="w-full text-xs p-2.5 rounded-xl border border-rihlah-light focus:outline-none focus:ring-2 focus:ring-rihlah-primary"
+                      className="w-full text-base sm:text-xs p-2.5 rounded-xl border border-rihlah-light focus:outline-none focus:ring-2 focus:ring-rihlah-primary"
                     />
                   </div>
 
@@ -242,7 +242,7 @@ export default function CartDrawer() {
                       placeholder="যেমন: বাড়ি ৪, রোড ২, ধানমন্ডি, ঢাকা"
                       value={customer.address}
                       onChange={(e) => setCustomer({ ...customer, address: e.target.value })}
-                      className="w-full text-xs p-2.5 rounded-xl border border-rihlah-light focus:outline-none focus:ring-2 focus:ring-rihlah-primary"
+                      className="w-full text-base sm:text-xs p-2.5 rounded-xl border border-rihlah-light focus:outline-none focus:ring-2 focus:ring-rihlah-primary"
                     />
                   </div>
 

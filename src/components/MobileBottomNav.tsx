@@ -10,8 +10,8 @@ export default function MobileBottomNav() {
   const pathname = usePathname();
   const { totalItems, isCartOpen, setIsCartOpen } = useCart();
 
-  // Do not render bottom nav on admin portal pages
-  if (pathname?.startsWith("/admin")) {
+  // Do not render bottom nav on admin portal pages or product detail pages
+  if (pathname?.startsWith("/admin") || pathname?.startsWith("/product")) {
     return null;
   }
 

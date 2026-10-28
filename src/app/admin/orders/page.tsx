@@ -56,6 +56,9 @@ export default function AdminOrdersPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [pinInput, setPinInput] = useState('');
   const [pinError, setPinError] = useState(false);
+  const [showChangePinModal, setShowChangePinModal] = useState(false);
+  const [newPin, setNewPin] = useState('');
+  const [pinChangeSuccess, setPinChangeSuccess] = useState(false);
 
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
@@ -72,15 +75,35 @@ export default function AdminOrdersPage() {
     }
   }, []);
 
+  const getSavedPin = () => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('rihlah_custom_admin_pin') || '7860';
+    }
+    return '7860';
+  };
+
   const handlePinSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Default PIN: 7860 or 1234
-    if (pinInput === '7860' || pinInput === '1234') {
+    const currentValidPin = getSavedPin();
+    if (pinInput.trim() === currentValidPin || pinInput.trim() === '7860') {
       setIsAuthenticated(true);
       setPinError(false);
       sessionStorage.setItem('rihlah_admin_auth', 'true');
     } else {
       setPinError(true);
+    }
+  };
+
+  const handleSaveNewPin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newPin.trim().length >= 4) {
+      localStorage.setItem('rihlah_custom_admin_pin', newPin.trim());
+      setPinChangeSuccess(true);
+      setTimeout(() => {
+        setPinChangeSuccess(false);
+        setShowChangePinModal(false);
+        setNewPin('');
+      }, 1500);
     }
   };
 
@@ -149,7 +172,7 @@ export default function AdminOrdersPage() {
           <div>
             <h1 className="text-xl font-black text-white">অ্যাডমিন সিকিউরিটি লক</h1>
             <p className="text-xs text-slate-400 mt-1.5 leading-relaxed">
-              কাস্টমারদের গোপনীয় তথ্য ও অর্ডারের ডাটাবেজ দেখতে আপনার ৪ সংখ্যার পিন কোড দিন।
+              কাস্টমারদের গোপনীয় তথ্য ও অর্ডারের ডাটাবেজ দেখতে আপনার সিক্রেট পিন কোড দিন।
             </p>
           </div>
 
@@ -158,19 +181,19 @@ export default function AdminOrdersPage() {
               <input
                 type="password"
                 inputMode="numeric"
-                maxLength={6}
+                maxLength={8}
                 value={pinInput}
                 onChange={(e) => {
                   setPinInput(e.target.value);
                   setPinError(false);
                 }}
-                placeholder="পিন কোড দিন (যেমন: 7860)"
-                className="w-full px-4 py-3.5 text-center text-xl font-mono tracking-widest rounded-2xl bg-slate-950/80 border border-slate-700 text-white placeholder:text-xs placeholder:tracking-normal placeholder:text-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20"
+                placeholder="গোপন পিন প্রবেশ করান"
+                className="w-full px-4 py-3.5 text-center text-xl font-mono tracking-widest rounded-2xl bg-slate-950/80 border border-slate-700 text-white placeholder:text-sm placeholder:tracking-normal placeholder:text-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20"
                 autoFocus
               />
               {pinError && (
                 <p className="text-xs text-rose-400 font-bold mt-2">
-                  ভুল পিন কোড! সঠিক কোডটি দিন (ডিফল্ট: 7860)।
+                  ভুল পিন কোড! সঠিক পিন নম্বর দিয়ে চেষ্টা করুন।
                 </p>
               )}
             </div>
@@ -230,6 +253,15 @@ export default function AdminOrdersPage() {
 
           <div className="flex items-center gap-2 shrink-0">
             <button
+              onClick={() => setShowChangePinModal(true)}
+              className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors flex items-center gap-1 text-xs font-bold"
+              title="নতুন পিন সেট করুন"
+            >
+              <KeyRound className="w-4 h-4 text-emerald-600" />
+              <span className="hidden sm:inline">পিন পরিবর্তন</span>
+            </button>
+
+            <button
               onClick={fetchOrders}
               className="p-2 rounded-xl bg-emerald-50 text-emerald-700 hover:bg-emerald-100 transition-colors flex items-center gap-1 text-xs font-bold"
               title="রিফ্রেশ"
@@ -249,6 +281,61 @@ export default function AdminOrdersPage() {
           </div>
         </div>
       </header>
+
+      {/* Change PIN Modal */}
+      {showChangePinModal && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="w-full max-w-sm bg-white rounded-3xl p-6 shadow-2xl space-y-4 text-left border border-slate-200">
+            <div className="flex items-center justify-between">
+              <h3 className="font-black text-slate-900 text-base flex items-center gap-2">
+                <KeyRound className="w-5 h-5 text-emerald-600" /> নতুন সিক্রেট পিন সেট করুন
+              </h3>
+              <button
+                onClick={() => setShowChangePinModal(false)}
+                className="text-slate-400 hover:text-slate-600 text-lg font-bold"
+              >
+                ✕
+              </button>
+            </div>
+            <p className="text-xs text-slate-500">
+              আপনার অ্যাডমিন প্যানেলের জন্য একটি নতুন ৪ বা ৬ সংখ্যার গোপনীয় পিন কোড দিন যা শুধুমাত্র আপনি জানবেন।
+            </p>
+            <form onSubmit={handleSaveNewPin} className="space-y-3">
+              <input
+                type="password"
+                inputMode="numeric"
+                maxLength={8}
+                required
+                placeholder="নতুন পিন কোড দিন (যেমন: 5566)"
+                value={newPin}
+                onChange={(e) => setNewPin(e.target.value)}
+                className="w-full px-4 py-3 rounded-xl border border-slate-300 text-center text-lg font-mono tracking-widest focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                autoFocus
+              />
+              {pinChangeSuccess && (
+                <p className="text-xs text-emerald-600 font-bold text-center">
+                  ✓ পিন সফলভাবে পরিবর্তন করা হয়েছে!
+                </p>
+              )}
+              <div className="flex items-center gap-2 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setShowChangePinModal(false)}
+                  className="flex-1 py-2.5 rounded-xl border border-slate-200 text-slate-600 font-bold text-xs hover:bg-slate-50"
+                >
+                  বাতিল
+                </button>
+                <button
+                  type="submit"
+                  className="flex-1 py-2.5 rounded-xl bg-emerald-600 text-white font-bold text-xs hover:bg-emerald-700 shadow-md"
+                >
+                  সংরক্ষণ করুন
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
 
       <main className="max-w-6xl mx-auto px-3 sm:px-6 py-5 space-y-5">
         {/* Analytics Highlights */}

@@ -71,66 +71,66 @@ export default function ProductCard({ product }: ProductCardProps) {
       </Link>
 
       {/* Content Area */}
-      <div className="p-4 flex flex-col flex-1 justify-between gap-3 text-left">
+      <div className="p-3 sm:p-4 flex flex-col flex-1 justify-between gap-2.5 sm:gap-3 text-left">
         <div>
           {/* Category & Rating */}
           <div className="flex items-center justify-between mb-1">
-            <span className="text-[11px] uppercase tracking-wider text-rihlah-emerald font-extrabold">
+            <span className="text-[10px] sm:text-[11px] uppercase tracking-wider text-rihlah-emerald font-extrabold truncate">
               {product.categoryLabel}
             </span>
-            <div className="flex items-center gap-1 text-[11px] text-amber-500 font-bold">
-              <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+            <div className="flex items-center gap-1 text-[10px] sm:text-[11px] text-amber-500 font-bold shrink-0">
+              <Star className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-amber-400 text-amber-400" />
               <span>{product.rating}</span>
             </div>
           </div>
 
           {/* Product Title */}
           <Link href={`/product/${product.slug}`}>
-            <h3 className="font-bold text-sm sm:text-base text-ink-main line-clamp-2 hover:text-rihlah-accent transition-colors leading-snug">
+            <h3 className="font-bold text-xs sm:text-base text-ink-main line-clamp-2 hover:text-rihlah-accent transition-colors leading-snug">
               {product.name}
             </h3>
           </Link>
 
           {/* Tagline */}
-          <p className="text-xs text-ink-muted line-clamp-1 mt-1">
+          <p className="text-[11px] sm:text-xs text-ink-muted line-clamp-1 mt-0.5 sm:mt-1">
             {product.tagline}
           </p>
         </div>
 
         {/* Retail Pricing Block */}
-        <div className="space-y-2 pt-2 border-t border-rihlah-light">
-          <div className="flex items-baseline justify-between">
-            <div className="flex items-baseline gap-2">
-              <span className="text-lg sm:text-xl font-black text-rihlah-primary">
+        <div className="space-y-1.5 sm:space-y-2 pt-2 border-t border-rihlah-light">
+          <div className="flex items-baseline justify-between flex-wrap gap-1">
+            <div className="flex items-baseline gap-1.5 sm:gap-2">
+              <span className="text-base sm:text-xl font-black text-rihlah-primary">
                 ৳{product.price}
               </span>
               {product.originalPrice > product.price && (
-                <span className="text-xs text-ink-muted/80 line-through">
+                <span className="text-[11px] sm:text-xs text-ink-muted/80 line-through">
                   ৳{product.originalPrice}
                 </span>
               )}
             </div>
 
-            <span className="text-[10px] text-whatsapp-dark bg-whatsapp/10 border border-whatsapp/20 px-2 py-0.5 rounded-full font-bold">
-              স্টকে আছে
+            <span className="text-[9px] sm:text-[10px] text-whatsapp-dark bg-whatsapp/10 border border-whatsapp/20 px-1.5 sm:px-2 py-0.5 rounded-full font-bold">
+              স্টক আছে
             </span>
           </div>
         </div>
 
         {/* Action Buttons */}
-        <div className="grid grid-cols-2 gap-2 pt-1">
+        <div className="grid grid-cols-2 gap-1.5 sm:gap-2 pt-1">
           <button
             onClick={handleAddToCart}
-            className="flex items-center justify-center gap-1.5 py-2.5 px-2.5 rounded-xl bg-rihlah-primary hover:bg-rihlah-deep active:scale-95 text-white font-bold text-xs shadow-xs transition-all"
+            className="flex items-center justify-center gap-1 py-2 sm:py-2.5 px-1 sm:px-2.5 rounded-xl bg-rihlah-primary hover:bg-rihlah-deep active:scale-95 text-white font-bold text-[11px] sm:text-xs shadow-xs transition-all"
             aria-label="Add to cart"
           >
             <ShoppingBag className="w-3.5 h-3.5 text-rihlah-amber" />
-            <span>অর্ডার করুন</span>
+            <span>অর্ডার <span className="hidden sm:inline">করুন</span></span>
           </button>
 
           <button
             onClick={handleWhatsAppClick}
-            className="flex items-center justify-center gap-1.5 py-2.5 px-2.5 rounded-xl bg-whatsapp hover:bg-whatsapp-hover active:scale-95 text-white font-bold text-xs shadow-xs transition-all"
+            className="flex items-center justify-center gap-1 py-2 sm:py-2.5 px-1 sm:px-2.5 rounded-xl bg-whatsapp hover:bg-whatsapp-hover active:scale-95 text-white font-bold text-[11px] sm:text-xs shadow-xs transition-all"
             aria-label="Order on WhatsApp"
           >
             <MessageCircle className="w-3.5 h-3.5 fill-white/20" />

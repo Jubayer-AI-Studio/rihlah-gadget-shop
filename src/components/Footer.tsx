@@ -59,12 +59,12 @@ export default function Footer() {
         {/* Brand Info */}
         <div className="md:col-span-5 space-y-4">
           <div className="flex items-center gap-3">
-            <div className="relative w-12 h-12 rounded-full overflow-hidden border-2 border-rihlah-accent bg-white shadow-md">
+            <div className="relative w-12 h-12 rounded-xl overflow-hidden border border-rihlah-accent/50 bg-white p-0.5 shadow-md">
               <Image
-                src="/images/logo.jpg"
+                src="/images/logo.png"
                 alt={siteConfig.name}
                 fill
-                className="object-cover"
+                className="object-contain"
               />
             </div>
             <div>

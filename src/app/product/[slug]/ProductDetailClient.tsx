@@ -384,7 +384,7 @@ export default function ProductDetailClient({ product, relatedProducts }: Props)
               </p>
             </div>
 
-            <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-6">
               {relatedProducts.map((p) => (
                 <ProductCard key={p.id} product={p} />
               ))}
@@ -394,36 +394,32 @@ export default function ProductDetailClient({ product, relatedProducts }: Props)
       </main>
 
       {/* Mobile Sticky Quick Buy Bar */}
-      <div className="md:hidden fixed bottom-14 left-0 right-0 z-30 bg-white/95 backdrop-blur-md border-t border-slate-200/90 px-4 py-2 shadow-[0_-4px_16px_rgba(0,0,0,0.08)] flex items-center justify-between gap-3 safe-bottom">
-        <div>
-          <span className="text-[10px] text-ink-muted block leading-none">মূল্য:</span>
-          <div className="flex items-baseline gap-1 mt-0.5">
-            <span className="text-base font-extrabold text-rihlah-primary">৳{product.price}</span>
-            {product.originalPrice > product.price && (
-              <span className="text-[11px] line-through text-slate-400">৳{product.originalPrice}</span>
-            )}
-          </div>
-        </div>
-        <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={handleBuyNow}
-            className="px-3 py-2 rounded-xl bg-emerald-50 text-emerald-800 border border-emerald-200 font-bold text-xs flex items-center gap-1 active:scale-95 transition-all"
-          >
-            <ShoppingBag className="w-3.5 h-3.5" />
-            <span>কার্টে নিন</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              addToCart(product, quantity, selectedColor);
-            }}
-            className="px-4 py-2 rounded-xl bg-gradient-to-r from-rihlah-primary to-rihlah-deep text-white font-extrabold text-xs shadow-md shadow-rihlah-primary/30 flex items-center gap-1.5 active:scale-95 transition-all"
-          >
-            <span>সরাসরি অর্ডার</span>
-            <ChevronRight className="w-3.5 h-3.5" />
-          </button>
-        </div>
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200/90 px-3 py-2.5 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] flex items-center justify-between gap-2 safe-bottom">
+        <Link
+          href="/"
+          className="flex flex-col items-center justify-center py-1 px-2.5 rounded-xl text-slate-500 hover:text-slate-800 shrink-0"
+        >
+          <ArrowLeft className="w-5 h-5" />
+          <span className="text-[10px] mt-0.5 font-bold">হোম</span>
+        </Link>
+
+        <button
+          type="button"
+          onClick={handleWhatsAppOrder}
+          className="flex flex-col items-center justify-center py-1 px-2.5 rounded-xl text-emerald-600 hover:text-emerald-700 shrink-0"
+        >
+          <MessageCircle className="w-5 h-5 text-whatsapp fill-whatsapp/20" />
+          <span className="text-[10px] mt-0.5 font-bold text-emerald-700">হোয়াটসঅ্যাপ</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={handleBuyNow}
+          className="flex-1 py-2.5 px-3 rounded-xl bg-gradient-to-r from-rihlah-primary to-rihlah-deep text-white font-extrabold text-xs shadow-md shadow-rihlah-primary/25 flex items-center justify-center gap-1.5 active:scale-95 transition-all"
+        >
+          <ShoppingBag className="w-4 h-4 text-rihlah-amber" />
+          <span>অর্ডার করুন (৳{product.price})</span>
+        </button>
       </div>
 
       {/* Cart Drawer */}
