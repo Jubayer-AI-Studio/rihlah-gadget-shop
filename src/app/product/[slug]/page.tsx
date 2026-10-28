@@ -24,32 +24,21 @@ function parseProduct(p: any): Product {
 }
 
 export async function generateStaticParams() {
-  try {
-    const dbProducts = await prisma.product.findMany({
-      select: { slug: true },
-    });
-    if (dbProducts && dbProducts.length > 0) {
-      return dbProducts.map((p) => ({ slug: p.slug }));
-    }
-  } catch (err) {}
-
   return initialProducts.map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  let product: Product | undefined;
-
-  try {
-    const dbProduct = await prisma.product.findUnique({
-      where: { slug: params.slug },
-    });
-    if (dbProduct) {
-      product = parseProduct(dbProduct);
-    }
-  } catch (err) {}
+  let product: Product | undefined = getProductBySlug(params.slug);
 
   if (!product) {
-    product = getProductBySlug(params.slug);
+    try {
+      const dbProduct = await prisma.product.findUnique({
+        where: { slug: params.slug },
+      });
+      if (dbProduct) {
+        product = parseProduct(dbProduct);
+      }
+    } catch (err) {}
   }
 
   if (!product) return {};
@@ -73,41 +62,24 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function ProductPage({ params }: Props) {
-  let product: Product | undefined;
-
-  try {
-    const dbProduct = await prisma.product.findUnique({
-      where: { slug: params.slug },
-    });
-    if (dbProduct) {
-      product = parseProduct(dbProduct);
-    }
-  } catch (err) {}
+  let product: Product | undefined = getProductBySlug(params.slug);
 
   if (!product) {
-    product = getProductBySlug(params.slug);
+    try {
+      const dbProduct = await prisma.product.findUnique({
+        where: { slug: params.slug },
+      });
+      if (dbProduct) {
+        product = parseProduct(dbProduct);
+      }
+    } catch (err) {}
   }
 
   if (!product) {
     notFound();
   }
 
-  let relatedProducts: Product[] = [];
-  try {
-    const relatedDb = await prisma.product.findMany({
-      where: {
-        id: { not: product.id },
-      },
-      take: 4,
-    });
-    if (relatedDb && relatedDb.length > 0) {
-      relatedProducts = relatedDb.map(parseProduct);
-    }
-  } catch (err) {}
-
-  if (relatedProducts.length === 0) {
-    relatedProducts = getRelatedProducts(product.category, product.id, 4);
-  }
+  let relatedProducts: Product[] = getRelatedProducts(product.category, product.id, 4);
 
   return (
     <ProductDetailClient product={product} relatedProducts={relatedProducts} />
