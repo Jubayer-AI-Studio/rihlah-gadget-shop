@@ -36,14 +36,10 @@ export default function HeroBanner() {
             </p>
 
             {/* Feature Checklist */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 w-full pt-1 text-xs sm:text-sm text-rihlah-deep font-semibold">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 w-full pt-1 text-xs sm:text-sm text-rihlah-deep font-semibold">
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-rihlah-primary shrink-0" />
                 <span>সারাদেশে ক্যাশ অন ডেলিভারি (পণ্য দেখে টাকা)</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-rihlah-primary shrink-0" />
-                <span>৭ দিনের সহজ রিপ্লেসমেন্ট নিশ্চয়তা</span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-rihlah-primary shrink-0" />

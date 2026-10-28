@@ -2037,13 +2037,13 @@ export const initialProducts: Product[] = [
 {
   "id": "fast-charger-33w-multi",
   "slug": "33w-flash-fast-charger-1-year-warranty",
-  "name": "33W Flash Fast Charger with 1-Year Replacement Warranty",
+  "name": "33W Flash Fast Charger with 1-Year Replacement Guarantee",
   "tagline": "Mi, Vivo, Oppo, Realme, Redmi ও Samsung সাপোর্টেড ৩৩ ওয়াট সুপার ফ্ল্যাশ চার্জার!",
   "category": "accessories",
   "categoryLabel": "স্মার্ট অ্যাক্সেসরিজ",
   "originalPrice": 490,
   "price": 400,
-  "badge": "১ বছর ওয়ারেন্টি",
+  "badge": "১ বছর গ্যারান্টি",
   "isFeatured": true,
   "isBestSeller": true,
   "inStock": true,
@@ -2055,7 +2055,7 @@ export const initialProducts: Product[] = [
   "shortDescription": "শাওমি, ভিভো, অপো ও স্যামসাং ফোনের জন্য ৩৩ ওয়াট টার্বো ফ্ল্যাশ ফাস্ট চার্জার সাথে পুরো ১ বছরের গ্যারান্টি।",
   "fullDescription": [
     "এই ৩৩ ওয়াট চার্জারটিতে রয়েছে অত্যাধুনিক ইন্টেলিজেন্ট চার্জিং চিপ যা ফোনের প্রয়োজনীয় ভোল্টেজ নিজে থেকেই চিনে নেয়।",
-    "দীর্ঘ ১ বছরের নিশ্চিন্ত রিপ্লেসমেন্ট ওয়ারেন্টি থাকায় এটি বাজারে সবচেয়ে নির্ভরযোগ্য চার্জার।"
+    "দীর্ঘ ১ বছরের নিশ্চিন্ত রিপ্লেসমেন্ট গ্যারান্টি থাকায় এটি বাজারে সবচেয়ে নির্ভরযোগ্য চার্জার।"
   ],
   "keyFeatures": [
     "৩৩ ওয়াট হাই-স্পিড ফ্ল্যাশ চার্জিং আউটপুট",
@@ -2074,11 +2074,11 @@ export const initialProducts: Product[] = [
       "value": "Mi, Vivo, Oppo, Realme, Redmi, Samsung"
     },
     {
-      "label": "ওয়ারেন্টি",
-      "value": "1 Year Full Replacement"
+      "label": "গ্যারান্টি",
+      "value": "1 Year Full Replacement Guarantee"
     }
   ],
-  "warranty": "১ বছর রিপ্লেসমেন্ট ওয়ারেন্টি"
+  "warranty": "১ বছর রিপ্লেসমেন্ট গ্যারান্টি"
 },
 {
   "id": "smart-2030-kids-smartwatch",

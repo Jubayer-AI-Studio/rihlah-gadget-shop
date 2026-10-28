@@ -34,11 +34,11 @@ export default function Footer() {
 
           <div className="flex items-start gap-3.5 p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-rihlah-accent/30 transition-all">
             <div className="p-2.5 rounded-2xl bg-rihlah-primary/80 text-rihlah-amber shrink-0">
-              <RefreshCw className="w-6 h-6" />
+              <Sparkles className="w-6 h-6" />
             </div>
             <div>
-              <h4 className="font-bold text-white text-sm">৭ দিনের সহজ রিপ্লেসমেন্ট</h4>
-              <p className="text-xs text-white/70 mt-1">যেকোনো টেকনিক্যাল সমস্যায় দ্রুত সমাধানের নিশ্চয়তা।</p>
+              <h4 className="font-bold text-white text-sm">সেরা অফার রেট</h4>
+              <p className="text-xs text-white/70 mt-1">বাজারে সেরা ডিসকাউন্ট মূল্যে প্রিমিয়াম আসল গ্যাজেট।</p>
             </div>
           </div>
 
