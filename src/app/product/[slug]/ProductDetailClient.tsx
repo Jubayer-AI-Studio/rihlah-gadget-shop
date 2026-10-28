@@ -26,6 +26,7 @@ import { useCart } from '@/context/CartContext';
 import { Product } from '@/types/product';
 import { siteConfig } from '@/config/siteConfig';
 import { generateSingleProductWhatsAppUrl } from '@/utils/whatsappOrder';
+import { trackEvent } from '@/utils/analytics';
 
 interface Props {
   product: Product;
@@ -42,6 +43,10 @@ export default function ProductDetailClient({ product, relatedProducts }: Props)
   const [quantity, setQuantity] = useState<number>(1);
   const [copied, setCopied] = useState<boolean>(false);
 
+  React.useEffect(() => {
+    trackEvent('visit');
+  }, []);
+
   const totalPrice = product.price * quantity;
   const savings = (product.originalPrice - product.price) * quantity;
 
@@ -57,6 +62,7 @@ export default function ProductDetailClient({ product, relatedProducts }: Props)
   };
 
   const handleWhatsAppOrder = () => {
+    trackEvent('whatsapp');
     const url = generateSingleProductWhatsAppUrl(product, quantity, selectedColor);
     window.open(url, '_blank');
   };

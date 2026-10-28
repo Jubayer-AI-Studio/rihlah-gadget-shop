@@ -7,6 +7,7 @@ import { ShoppingBag, MessageCircle, Eye, Sparkles, Star } from 'lucide-react';
 import { Product } from '@/types/product';
 import { useCart } from '@/context/CartContext';
 import { generateSingleProductWhatsAppUrl } from '@/utils/whatsappOrder';
+import { trackEvent } from '@/utils/analytics';
 
 interface ProductCardProps {
   product: Product;
@@ -17,6 +18,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
   const handleWhatsAppClick = (e: React.MouseEvent) => {
     e.stopPropagation();
+    trackEvent('whatsapp');
     const url = generateSingleProductWhatsAppUrl(product, 1);
     window.open(url, '_blank');
   };

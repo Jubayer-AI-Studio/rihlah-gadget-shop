@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Download, X, Share } from "lucide-react";
+import { trackEvent } from "@/utils/analytics";
 
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
@@ -56,10 +57,17 @@ export default function PwaInstaller() {
       setShowPrompt(true);
     };
 
+    const handleAppInstalled = () => {
+      trackEvent('install');
+      setShowPrompt(false);
+    };
+
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+    window.addEventListener("appinstalled", handleAppInstalled);
 
     return () => {
       window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+      window.removeEventListener("appinstalled", handleAppInstalled);
     };
   }, []);
 
@@ -68,6 +76,7 @@ export default function PwaInstaller() {
     await deferredPrompt.prompt();
     const choice = await deferredPrompt.userChoice;
     if (choice.outcome === "accepted") {
+      trackEvent('install');
       setShowPrompt(false);
     }
     setDeferredPrompt(null);

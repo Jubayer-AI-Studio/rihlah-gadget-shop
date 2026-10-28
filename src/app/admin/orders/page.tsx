@@ -21,9 +21,14 @@ import {
   Copy,
   Check,
   LogOut,
-  Sparkles
+  Sparkles,
+  Users,
+  Eye,
+  Download,
+  BarChart3
 } from 'lucide-react';
 import { siteConfig } from '@/config/siteConfig';
+import { getLiveStats } from '@/utils/analytics';
 
 interface OrderItem {
   id: string;
@@ -64,6 +69,13 @@ export default function AdminOrdersPage() {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('ALL');
   const [copiedOrderId, setCopiedOrderId] = useState<string | null>(null);
+  const [stats, setStats] = useState({
+    totalVisits: 0,
+    todayVisits: 0,
+    pwaInstalls: 0,
+    addToCart: 0,
+    whatsappClicks: 0,
+  });
 
   // Check auth session
   useEffect(() => {
@@ -146,9 +158,19 @@ export default function AdminOrdersPage() {
     setLoading(false);
   };
 
+  const loadData = async () => {
+    fetchOrders();
+    try {
+      const liveStats = await getLiveStats();
+      if (liveStats) {
+        setStats(liveStats);
+      }
+    } catch (e) {}
+  };
+
   useEffect(() => {
     if (isAuthenticated) {
-      fetchOrders();
+      loadData();
     }
   }, [isAuthenticated]);
 
@@ -262,7 +284,7 @@ export default function AdminOrdersPage() {
             </button>
 
             <button
-              onClick={fetchOrders}
+              onClick={loadData}
               className="p-2 rounded-xl bg-emerald-50 text-emerald-700 hover:bg-emerald-100 transition-colors flex items-center gap-1 text-xs font-bold"
               title="রিফ্রেশ"
             >
@@ -338,6 +360,116 @@ export default function AdminOrdersPage() {
       )}
 
       <main className="max-w-6xl mx-auto px-3 sm:px-6 py-5 space-y-5">
+        {/* Real-time Visitor & Customer Engagement Analytics */}
+        <section className="bg-white rounded-3xl p-4 sm:p-6 border border-slate-200/90 shadow-xs space-y-4">
+          <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+            <div className="flex items-center gap-2">
+              <div className="p-2 rounded-xl bg-emerald-500/10 text-emerald-600">
+                <BarChart3 className="w-5 h-5" />
+              </div>
+              <div>
+                <h2 className="text-sm sm:text-base font-black text-slate-900">
+                  রিয়েল-টাইম ভিজিটর ও শপ ট্র্যাকিং
+                </h2>
+                <p className="text-[11px] text-slate-500 font-medium">
+                  সারাদেশ থেকে গ্রাহকদের লাইভ ভিজিট ও কেনাকাটার পরিসংখ্যান
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-[11px] font-bold">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+              <span className="hidden sm:inline">লাইভ সিঙ্ক</span>
+            </div>
+          </div>
+
+          {/* Engagement Grid: 4 Cards on Desktop, 2x2 on Mobile */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
+            {/* Total Visitors */}
+            <div className="p-3.5 sm:p-4 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50/50 border border-blue-100 flex flex-col justify-between">
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] sm:text-xs font-bold text-blue-700">সর্বমোট ভিজিটর</span>
+                <div className="p-1.5 rounded-lg bg-blue-100 text-blue-700">
+                  <Users className="w-4 h-4" />
+                </div>
+              </div>
+              <div className="mt-2">
+                <span className="text-xl sm:text-3xl font-black text-blue-900">
+                  {stats.totalVisits.toLocaleString('bn-BD')}
+                </span>
+                <span className="text-[10px] text-blue-600 block mt-0.5">সব ইউনিক ভিজিট</span>
+              </div>
+            </div>
+
+            {/* Today's Visitors */}
+            <div className="p-3.5 sm:p-4 rounded-2xl bg-gradient-to-br from-emerald-50 to-teal-50/50 border border-emerald-100 flex flex-col justify-between">
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] sm:text-xs font-bold text-emerald-700">আজকের ভিজিটর</span>
+                <div className="p-1.5 rounded-lg bg-emerald-100 text-emerald-700">
+                  <Eye className="w-4 h-4" />
+                </div>
+              </div>
+              <div className="mt-2">
+                <span className="text-xl sm:text-3xl font-black text-emerald-900">
+                  {stats.todayVisits.toLocaleString('bn-BD')}
+                </span>
+                <span className="text-[10px] text-emerald-600 block mt-0.5">আজকে নতুন ভিজিট</span>
+              </div>
+            </div>
+
+            {/* PWA App Installs */}
+            <div className="p-3.5 sm:p-4 rounded-2xl bg-gradient-to-br from-purple-50 to-pink-50/50 border border-purple-100 flex flex-col justify-between">
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] sm:text-xs font-bold text-purple-700">অ্যাপ ইন্সটল</span>
+                <div className="p-1.5 rounded-lg bg-purple-100 text-purple-700">
+                  <Download className="w-4 h-4" />
+                </div>
+              </div>
+              <div className="mt-2">
+                <span className="text-xl sm:text-3xl font-black text-purple-900">
+                  {stats.pwaInstalls.toLocaleString('bn-BD')}
+                </span>
+                <span className="text-[10px] text-purple-600 block mt-0.5">হোম স্ক্রিন অ্যাপ</span>
+              </div>
+            </div>
+
+            {/* Add to Cart Events */}
+            <div className="p-3.5 sm:p-4 rounded-2xl bg-gradient-to-br from-amber-50 to-orange-50/50 border border-amber-100 flex flex-col justify-between">
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] sm:text-xs font-bold text-amber-700">কার্টে যুক্ত</span>
+                <div className="p-1.5 rounded-lg bg-amber-100 text-amber-700">
+                  <ShoppingBag className="w-4 h-4" />
+                </div>
+              </div>
+              <div className="mt-2">
+                <span className="text-xl sm:text-3xl font-black text-amber-900">
+                  {stats.addToCart.toLocaleString('bn-BD')}
+                </span>
+                <span className="text-[10px] text-amber-600 block mt-0.5">ক্রয় আগ্রহ</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Sub-row: WhatsApp Leads & Server Info */}
+          <div className="p-3 rounded-2xl bg-slate-50 border border-slate-200/60 flex items-center justify-between flex-wrap gap-2 text-xs">
+            <div className="flex items-center gap-2">
+              <div className="p-1.5 rounded-lg bg-emerald-600 text-white">
+                <MessageCircle className="w-4 h-4" />
+              </div>
+              <span className="font-bold text-slate-700">
+                হোয়াটসঅ্যাপ হটলাইন ক্লিক:{' '}
+                <span className="font-black text-emerald-700 text-sm">
+                  {stats.whatsappClicks.toLocaleString('bn-BD')} বার
+                </span>
+              </span>
+            </div>
+
+            <span className="text-[11px] text-slate-500 font-medium">
+              ক্লাউডফ্লেয়ার এজ নেটওয়ার্কে সুরক্ষিত
+            </span>
+          </div>
+        </section>
+
         {/* Analytics Highlights */}
         <div className="grid grid-cols-3 gap-2.5 sm:gap-4">
           <div className="p-3.5 sm:p-5 rounded-2xl bg-white border border-slate-200/80 shadow-xs">
@@ -357,7 +489,7 @@ export default function AdminOrdersPage() {
           <div className="p-3.5 sm:p-5 rounded-2xl bg-white border border-slate-200/80 shadow-xs">
             <span className="text-[11px] sm:text-xs text-emerald-600 font-bold block truncate">মোট বিক্রি</span>
             <span className="text-lg sm:text-2xl font-black text-emerald-700 mt-1 block truncate">
-              ৳{totalSales}
+              ৳{totalSales.toLocaleString('bn-BD')}
             </span>
           </div>
         </div>

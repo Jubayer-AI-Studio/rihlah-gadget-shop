@@ -11,6 +11,7 @@ import { Product } from '@/types/product';
 import { initialProducts } from '@/data/products';
 import { siteConfig } from '@/config/siteConfig';
 import { MessageCircle, Sparkles, PackageSearch, Loader2 } from 'lucide-react';
+import { trackEvent } from '@/utils/analytics';
 
 export default function HomePage() {
   const [products, setProducts] = useState<Product[]>(initialProducts);
@@ -19,6 +20,7 @@ export default function HomePage() {
   const [searchQuery, setSearchQuery] = useState<string>('');
 
   useEffect(() => {
+    trackEvent('visit');
     async function loadProducts() {
       try {
         const res = await fetch('/api/products');
