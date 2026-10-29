@@ -228,8 +228,8 @@ export const initialProducts: Product[] = [
     "tagline": "সুপার ANC নয়েজ রিডাকশন, ভয়েস চেঞ্জ ও ৩৫০ ঘণ্টা ব্যাকআপ!",
     "category": "headphone",
     "categoryLabel": "ওয়্যারলেস নেকব্যান্ড",
-    "originalPrice": 700,
-    "price": 650,
+    "originalPrice": 1200,
+    "price": 800,
     "badge": "Super ANC",
     "isFeatured": true,
     "isBestSeller": true,
@@ -2247,7 +2247,8 @@ export const initialProducts: Product[] = [
     "rating": 4.9,
     "reviewsCount": 21,
     "images": [
-      "/images/products/hoco-hc36-speaker.jpg"
+      "/images/products/hoco-hc36-speaker.jpg",
+      "/images/products/hoco-hc36-speaker-box.jpg"
     ],
     "shortDescription": "১০০% আসল Hoco ব্যান্ডের ১০ ওয়াট জোরালো ডুয়েল স্পিকার সাথে নজরকাড়া আরজিবি লাইট।",
     "fullDescription": [
@@ -2791,7 +2792,8 @@ export const initialProducts: Product[] = [
     "rating": 4.9,
     "reviewsCount": 78,
     "images": [
-      "/images/products/kemei-km-809a-hair-clipper.jpg"
+      "/images/products/kemei-km-809a-hair-clipper.jpg",
+      "/images/products/kemei-km-809a-hair-clipper-2.jpg"
     ],
     "shortDescription": "প্রফেশনাল সেলুন ও হোম গ্রুমিংয়ের জন্য কিমেই KM-809A রিচার্জেবল হেয়ার ক্লিপার। এলসিডি ডিসপ্লেতে ব্যাটারি পার্সেন্টেজ সবসময় দেখা যায়।",
     "fullDescription": [

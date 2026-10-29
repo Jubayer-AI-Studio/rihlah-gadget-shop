@@ -29,8 +29,8 @@ export const siteConfig: SiteConfig = {
   whatsappDisplay: "01580-376861",
   whatsappDirectUrl: "https://wa.me/8801580376861",
   deliveryCharge: {
-    insideDhaka: 70,
-    outsideDhaka: 130,
+    insideDhaka: 85,
+    outsideDhaka: 135,
   },
   features: {
     authentic100: true,

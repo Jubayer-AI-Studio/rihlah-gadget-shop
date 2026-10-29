@@ -266,7 +266,7 @@ export default function CartDrawer() {
                           onChange={() => setCustomer({ ...customer, area: 'insideDhaka' })}
                           className="accent-rihlah-primary"
                         />
-                        <span>ঢাকার ভিতরে (৳৭০)</span>
+                        <span>ঢাকার ভিতরে (৳৮৫)</span>
                       </label>
 
                       <label
@@ -283,7 +283,7 @@ export default function CartDrawer() {
                           onChange={() => setCustomer({ ...customer, area: 'outsideDhaka' })}
                           className="accent-rihlah-primary"
                         />
-                        <span>ঢাকার বাইরে (৳১৩০)</span>
+                        <span>ঢাকার বাইরে (৳১৩৫)</span>
                       </label>
                     </div>
                   </div>
